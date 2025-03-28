@@ -10,7 +10,6 @@ const MortgageList = () => {
   const fetchMortgages = async () => {
     try {
       const response = await axios.get('http://localhost:8000/mortgages/');
-      debugger
       setMortgages(response.data["data"]);
     } catch (error) {
       console.error('Error fetching mortgages:', error);

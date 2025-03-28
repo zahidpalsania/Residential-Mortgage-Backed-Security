@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from rest_framework import status
 from .models import *
 from .serializers import *
+from .credit_rating import *
 
 
 class MortgageAPI(APIView):
@@ -27,7 +28,8 @@ class MortgageAPI(APIView):
             serializer = MortgageSerializers(data=request.data, many=True)
             if serializer.is_valid():
                 serializer.save()
-                response = {"status_code":"200","message":"success","data":serializer.data}
+                credit_rating  = calculate_credit_rating(serializer.data)
+                response = {"status_code":"200","message":"success","data":{"credit_rating":credit_rating}}
                 return JsonResponse(response,status=status.HTTP_200_OK,safe=False)
             else:
                 response = {"status_code":"400","message":"Failed","data":serializer.errors}
