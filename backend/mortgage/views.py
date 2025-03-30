@@ -20,6 +20,7 @@ class MortgageAPI(APIView):
                 response = {"status_code":"400","message":"No data found","data":""}
                 return JsonResponse(response,status=status.HTTP_200_OK,safe=False)
         except Exception as e:
+            print(e)
             response = {"status_code":"500","message":"something went wrong","data":""}
             return JsonResponse(response,status=status.HTTP_500_INTERNAL_SERVER_ERROR,safe=False)
     

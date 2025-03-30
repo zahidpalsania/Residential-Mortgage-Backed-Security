@@ -1,40 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 import { Table, Button, Container, Modal } from 'react-bootstrap';
 
-const MortgageList = () => {
-  const [mortgages, setMortgages] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
+const MortgageList = (props) => {
 
-  const fetchMortgages = async () => {
-    try {
-      const response = await axios.get('http://localhost:8000/mortgages/');
-      setMortgages(response.data["data"]);
-    } catch (error) {
-      console.error('Error fetching mortgages:', error);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      const response = await axios.delete(`http://localhost:8000/mortgages/${id}/`);
-      if (response.status === 200) {
-        fetchMortgages()
-        setModalMessage("Mortgage deleted successfully!")
-        setShowModal(true);
-      }
-    } catch (error) {
-      console.error('Error deleting mortgage:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchMortgages();
-  }, []);
-
+  const mortgages = props?.mortgages
   const handleCloseModal = () => {
-    setShowModal(false);
+    props.setShowModal(false);
   };
 
   return (
@@ -68,7 +39,7 @@ const MortgageList = () => {
                   <td>{mortgage.property_type}</td>
                   <td>
 
-                    <Button variant="danger" onClick={() => handleDelete(mortgage.id)}>
+                    <Button variant="danger" onClick={() => props.handleDelete(mortgage.id)}>
                       Delete
                     </Button>
                   </td>
@@ -78,8 +49,8 @@ const MortgageList = () => {
           </Table>
         </>
       }
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Body>{modalMessage}</Modal.Body>
+      <Modal show={props?.showModal} onHide={handleCloseModal}>
+        <Modal.Body>{props?.modalMessage}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
             Close

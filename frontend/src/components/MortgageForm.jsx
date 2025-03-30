@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Card, Button, Form } from 'react-bootstrap'
 import axios from 'axios'
 
-const MortgageForm = ({ onCalculate }) => {
+const MortgageForm = ({ onCalculate,fetchMortgages }) => {
     const [mortgages, setMortgages] = useState([{
         credit_score: '',
         loan_amount: '',
@@ -14,7 +14,6 @@ const MortgageForm = ({ onCalculate }) => {
     }])
     const [errors, setErrors] = useState([])
     const [loading, setLoading] = useState(false)
-    const [creditRating, setCreditRating] = useState(null);
 
     const validateMortgage = (mortgage) => {
         const errors = {};
@@ -42,6 +41,7 @@ const MortgageForm = ({ onCalculate }) => {
         return errors;
     };
 
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -56,7 +56,6 @@ const MortgageForm = ({ onCalculate }) => {
         try {
             const response = await axios.post('http://127.0.0.1:8000/mortgages/', mortgages);
             if (response.data["status_code"] == "200"){
-                setCreditRating(response.data["data"]["credit_rating"])
                 onCalculate(response.data["data"]["credit_rating"]);
                 setErrors([]);
                 setMortgages([{
@@ -68,6 +67,7 @@ const MortgageForm = ({ onCalculate }) => {
                     loan_type: 'fixed',
                     property_type: 'single_family'
                 }]);
+                fetchMortgages();
             }
         } catch (error) {
             console.error('Submission failed:', error);
