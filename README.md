@@ -15,6 +15,6 @@ This project allows users to apply for mortgages, calculates credit ratings, and
 2. Start the app: `npm start`
 
 ## 🔹 API Endpoints
-- **POST /api/mortgages/** → Accepts mortgage data and calculates credit rating.
-- **GET /api/mortgages/** → Fetch all mortgages data
-- **DELETE /api/mortgages/id/** → Delete mortgages data
+- **POST /mortgages/** → Accepts mortgage data and calculates credit rating.
+- **GET /mortgages/** → Fetch all mortgages data
+- **DELETE /mortgages/id/** → Delete mortgages data

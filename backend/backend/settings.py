@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -133,3 +133,38 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+LOGGING ={
+    'version':1,
+    'loggers':{
+        'django':{
+
+            'handlers':['console'],
+            'level':'DEBUG',
+        }
+        },
+    'handlers':{
+        'console':{
+            'level':'INFO',
+            'class':'logging.StreamHandler',
+            'formatter':'simpleRe',
+        },
+        'file': {  
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/temp.log'),
+            'formatter': 'simpleRe',
+        },
+    },
+    'formatters':{
+        'simpleRe':{
+            'format':'{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style':'{',
+        },
+         "verbose": {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{'
+        },
+    }
+}
